@@ -1,9 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from '/@/router'
+import router, { setupRouter } from '/@/router'
 
-// createApp(App).mount('#app')
-const app = createApp(App)
-app.use(router)
 
-router.isReady().then(()=>app.mount('#app'))
+(async () => {
+  const app = createApp(App)
+
+  setupRouter(app)
+  await router.isReady()
+  app.mount('#app',true)
+})()
