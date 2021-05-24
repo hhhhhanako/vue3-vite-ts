@@ -84,6 +84,51 @@
       npm install --save-dev @types/node
       ```
 
+    - 根据文档，resolve.alias接受一个对象
+
+      ```javascript
+      export default defineConfig({
+        plugins: [vue()],
+        resolve: {
+          alias: {
+            '/@': path.resolve(__dirname, '/src')
+          }
+        }
+      
+      
+      })
+      ```
+
+    - tsconfig.json同时需要增加路径配置，否则会报错找不到对应路径。
+
+      ```json
+      "compilerOptions": {
+          //.....
+          "baseUrl":".",//
+          "paths": {//相对于baseUrl的路径映射
+            "/@/*": [
+              "src/*"
+            ]
+          },
+        },
+      ```
+
+  - 配置vue router的路由
+
+    - router文件夹内增加路由配置router.ts和包含router创建方法的index.ts
+    - main.ts引用router/index.ts并使用对应方法
+    - App.vue内增加RouterView组件
+
   - vue router 4.x的变动
 
-  
+    - new Router变成createRouter函数
+
+    - history取代mode
+
+    - 所有的导航都是异步的
+
+      - 在路由ready之后再挂载dom
+
+        ```javascript
+        router.isReady().then(()=>{app.mount('#app')})
+        ```
